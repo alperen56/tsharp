@@ -11,7 +11,7 @@ semicolons are optional.
 
 ```
 x = 5
-name = "kahve"
+name = "coffe"
 pi = 3.14
 neg = -x
 ```
@@ -207,18 +207,15 @@ hardcoded price table; treat it as a sanity check, not accounting.
 ## the rest
 
 ```
-liste_olustur() -> handle          str_len(s)
-liste_ekle(h, value)               str_contains(s, needle) -> 1/0
-liste_al(h, index)                 json_get(json, field)
-liste_ayarla(h, index, value)      num(s), str(n)
-liste_uzunluk(h)                   sleep_ms(n)
+list_new() -> handle          str_len(s)
+list_push(h, value)               str_contains(s, needle) -> 1/0
+list_get(h, index)                 json_get(json, field)
+list_set(h, index, value)      num(s), str(n)
+list_len(h)                   sleep_ms(n)
                                    ant_name()   // e.g. "worker#2"
 ```
 
 Lists are handle-based (an integer you pass around), max 200 items each.
-Yes, the list functions have Turkish names — the language started as a
-Turkish-language project and renaming them would break existing scripts.
-Might alias them in English later.
 
 ## limits, honestly
 
