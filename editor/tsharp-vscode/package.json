@@ -1,0 +1,22 @@
+{
+  "name": "tsharp",
+  "displayName": "t# language",
+  "description": "syntax highlighting for t# (.tsharp) files",
+  "version": "1.0.0",
+  "publisher": "tsharp",
+  "engines": { "vscode": "^1.60.0" },
+  "categories": ["Programming Languages"],
+  "contributes": {
+    "languages": [{
+      "id": "tsharp",
+      "aliases": ["t#", "tsharp"],
+      "extensions": [".tsharp"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "tsharp",
+      "scopeName": "source.tsharp",
+      "path": "./syntaxes/tsharp.tmLanguage.json"
+    }]
+  }
+}

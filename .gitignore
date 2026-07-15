@@ -1,0 +1,6 @@
+secrets.env
+tsharp
+tsharp.exe
+ai_debug.log
+*.bak
+out_*.txt
