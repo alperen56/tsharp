@@ -9,7 +9,7 @@
     { "name": "constant.numeric.tsharp", "match": "\\b\\d+(\\.\\d+)?\\b" },
     { "name": "keyword.control.tsharp", "match": "\\b(if|else|while|return|func|colony|ant|spawn)\\b" },
     { "name": "entity.name.function.tsharp",
-      "match": "\\b(call_ai_json|call_ai_fallback|call_ai|use_model|role|temperature|goal|get_goal|memory_set|memory_get|memory_has|capability|write_file|read_file|load_env|leave_trail|follow_trail|wait_trail|require_trails|trail_count|approve|usage_report|ant_name|sleep_ms|liste_olustur|liste_ekle|liste_al|liste_ayarla|liste_uzunluk|str_len|str_contains|json_get|num|str|print)(?=\\s*\\()" },
+      "match": "\\b(call_ai_json|call_ai_fallback|call_ai|use_model|role|temperature|goal|get_goal|memory_set|memory_get|memory_has|capability|write_file|read_file|load_env|leave_trail|follow_trail|wait_trail|require_trails|trail_count|approve|usage_report|ant_name|sleep_ms|list_new|list_push|list_get|list_set|list_len|str_len|str_contains|json_get|num|str|print)(?=\\s*\\()" },
     { "name": "entity.name.function.tsharp", "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*(?=\\s*\\()" },
     { "name": "keyword.operator.tsharp", "match": "==|!=|>=|<=|&&|\\|\\||[+\\-*/=<>]" }
   ]
