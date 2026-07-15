@@ -1,5 +1,3 @@
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1422,7 +1420,7 @@ static Value call_function(ASTNode *call_node, Environment *caller_env) {
     static int list_used_storage[MAX_LISTS];
     static int list_lengths_storage[MAX_LISTS];
 
-    if (strcmp(fname, "liste_olustur") == 0) {
+    if (strcmp(fname, "list_new") == 0) {
         pthread_mutex_lock(&trail_lock);
         int handle = -1;
         for (int i = 0; i < MAX_LISTS; i++) if (!list_used_storage[i]) { handle = i; break; }
@@ -1437,13 +1435,13 @@ static Value call_function(ASTNode *call_node, Environment *caller_env) {
         if (handle < 0) { printf("runtime error (line %d): cannot create list (limit %d or out of memory)\n", call_node->line, MAX_LISTS); exit(1); }
         return make_number(handle);
     }
-    if (strcmp(fname, "liste_ekle") == 0) {
-        if (call_node->stmt_count != 2) { printf("runtime error (line %d): liste_ekle(handle, value) takes 2 arguments\n", call_node->line); exit(1); }
+    if (strcmp(fname, "list_push") == 0) {
+        if (call_node->stmt_count != 2) { printf("runtime error (line %d): list_push(handle, value) takes 2 arguments\n", call_node->line); exit(1); }
         Value hv = eval(call_node->statements[0], caller_env);
         Value item = eval(call_node->statements[1], caller_env);
         int handle = (int)hv.number;
         if (handle < 0 || handle >= MAX_LISTS || !list_used_storage[handle]) {
-            printf("runtime error (line %d): liste_ekle: bad handle (call liste_olustur() first)\n", call_node->line); exit(1);
+            printf("runtime error (line %d): list_push: bad handle (call list_new() first)\n", call_node->line); exit(1);
         }
         pthread_mutex_lock(&trail_lock);
         int ok = 0;
@@ -1455,36 +1453,36 @@ static Value call_function(ASTNode *call_node, Environment *caller_env) {
         if (!ok) { printf("runtime error (line %d): list is full (max %d items)\n", call_node->line, LIST_CAP); exit(1); }
         return make_number(1);
     }
-    if (strcmp(fname, "liste_al") == 0) {
-        if (call_node->stmt_count != 2) { printf("runtime error (line %d): liste_al(handle, index) takes 2 arguments\n", call_node->line); exit(1); }
+    if (strcmp(fname, "list_get") == 0) {
+        if (call_node->stmt_count != 2) { printf("runtime error (line %d): list_get(handle, index) takes 2 arguments\n", call_node->line); exit(1); }
         Value hv = eval(call_node->statements[0], caller_env);
         Value iv = eval(call_node->statements[1], caller_env);
         int handle = (int)hv.number, index = (int)iv.number;
-        if (handle < 0 || handle >= MAX_LISTS || !list_used_storage[handle]) { printf("runtime error (line %d): liste_al: bad handle\n", call_node->line); exit(1); }
-        if (index < 0 || index >= list_lengths_storage[handle]) { printf("runtime error (line %d): liste_al: index out of range (index=%d, len=%d)\n", call_node->line, index, list_lengths_storage[handle]); exit(1); }
+        if (handle < 0 || handle >= MAX_LISTS || !list_used_storage[handle]) { printf("runtime error (line %d): list_get: bad handle\n", call_node->line); exit(1); }
+        if (index < 0 || index >= list_lengths_storage[handle]) { printf("runtime error (line %d): list_get: index out of range (index=%d, len=%d)\n", call_node->line, index, list_lengths_storage[handle]); exit(1); }
         pthread_mutex_lock(&trail_lock);
         Value result = list_items_storage[handle][index];
         pthread_mutex_unlock(&trail_lock);
         return result;
     }
-    if (strcmp(fname, "liste_ayarla") == 0) {
-        if (call_node->stmt_count != 3) { printf("runtime error (line %d): liste_ayarla(handle, index, value) takes 3 arguments\n", call_node->line); exit(1); }
+    if (strcmp(fname, "list_set") == 0) {
+        if (call_node->stmt_count != 3) { printf("runtime error (line %d): list_set(handle, index, value) takes 3 arguments\n", call_node->line); exit(1); }
         Value hv = eval(call_node->statements[0], caller_env);
         Value iv = eval(call_node->statements[1], caller_env);
         Value item = eval(call_node->statements[2], caller_env);
         int handle = (int)hv.number, index = (int)iv.number;
-        if (handle < 0 || handle >= MAX_LISTS || !list_used_storage[handle]) { printf("runtime error (line %d): liste_ayarla: bad handle\n", call_node->line); exit(1); }
-        if (index < 0 || index >= list_lengths_storage[handle]) { printf("runtime error (line %d): liste_ayarla: index out of range\n", call_node->line); exit(1); }
+        if (handle < 0 || handle >= MAX_LISTS || !list_used_storage[handle]) { printf("runtime error (line %d): list_set: bad handle\n", call_node->line); exit(1); }
+        if (index < 0 || index >= list_lengths_storage[handle]) { printf("runtime error (line %d): list_set: index out of range\n", call_node->line); exit(1); }
         pthread_mutex_lock(&trail_lock);
         list_items_storage[handle][index] = item;
         pthread_mutex_unlock(&trail_lock);
         return make_number(1);
     }
-    if (strcmp(fname, "liste_uzunluk") == 0) {
-        if (call_node->stmt_count != 1) { printf("runtime error (line %d): liste_uzunluk(handle) takes 1 argument\n", call_node->line); exit(1); }
+    if (strcmp(fname, "list_len") == 0) {
+        if (call_node->stmt_count != 1) { printf("runtime error (line %d): list_len(handle) takes 1 argument\n", call_node->line); exit(1); }
         Value hv = eval(call_node->statements[0], caller_env);
         int handle = (int)hv.number;
-        if (handle < 0 || handle >= MAX_LISTS || !list_used_storage[handle]) { printf("runtime error (line %d): liste_uzunluk: bad handle\n", call_node->line); exit(1); }
+        if (handle < 0 || handle >= MAX_LISTS || !list_used_storage[handle]) { printf("runtime error (line %d): list_len: bad handle\n", call_node->line); exit(1); }
         return make_number(list_lengths_storage[handle]);
     }
 
